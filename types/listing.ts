@@ -13,6 +13,8 @@ export interface Listing {
   rating: number;
   reviews: number;
   image: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface Room extends Listing {

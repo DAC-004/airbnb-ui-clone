@@ -1,11 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import CatalogHeader, { type SortOrder } from "@/components/CatalogHeader";
 import ListingGrid from "@/components/ListingGrid";
 import MapPlaceholder from "@/components/MapPlaceholder";
 import { listings as mockListings } from "@/data/listings";
+
+const ListingMap = dynamic(() => import("@/components/ListingMap"), {
+  ssr: false,
+  loading: () => <MapPlaceholder />,
+});
 
 const CatalogPage = () => {
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
@@ -37,7 +43,7 @@ const CatalogPage = () => {
           </section>
 
           <aside className="w-full md:sticky md:top-24 md:w-2/5 md:shrink-0 lg:w-1/3">
-            <MapPlaceholder />
+            <ListingMap listings={sortedListings} />
           </aside>
         </div>
       </main>

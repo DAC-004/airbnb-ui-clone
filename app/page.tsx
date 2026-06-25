@@ -29,7 +29,7 @@ const HomePage = () => {
     const timer = setTimeout(() => {
       setListings(mockListings);
       setIsLoading(false);
-    }, 800);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);

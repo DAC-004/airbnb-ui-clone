@@ -1,5 +1,15 @@
 "use client";
 
+const CATEGORY_ICONS: Record<string, string> = {
+  All: "✦",
+  Beach: "☼",
+  Mansions: "♛",
+  Trending: "↑",
+  Cabins: "⌂",
+  City: "▦",
+  Lakefront: "≋",
+};
+
 type CategoryFilterProps = {
   categories: string[];
   activeCategory: string;
@@ -20,6 +30,7 @@ const CategoryFilter = ({
       >
         {categories.map((category) => {
           const isActive = category === activeCategory;
+          const icon = CATEGORY_ICONS[category] ?? "•";
 
           return (
             <button
@@ -28,13 +39,16 @@ const CategoryFilter = ({
               role="tab"
               aria-selected={isActive}
               onClick={() => onCategoryChange(category)}
-              className={`shrink-0 border-b-2 pb-3 text-sm font-medium transition-colors md:text-base ${
+              className={`flex shrink-0 flex-col items-center gap-1 border-b-2 pb-3 pt-1 text-sm font-medium transition-colors md:text-base ${
                 isActive
                   ? "border-neutral-800 text-neutral-900"
                   : "border-transparent text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
               }`}
             >
-              {category}
+              <span aria-hidden="true" className="text-base leading-none md:text-lg">
+                {icon}
+              </span>
+              <span>{category}</span>
             </button>
           );
         })}

@@ -10,6 +10,8 @@ export const rooms: Room[] = [
     rating: 4.92,
     reviews: 128,
     image: "/placeholders/listing-beach-villa.jpg",
+    latitude: 34.0259,
+    longitude: -118.7798,
     host: {
       name: "Sarah Chen",
       yearsHosting: 6,
@@ -34,6 +36,8 @@ export const rooms: Room[] = [
     rating: 4.88,
     reviews: 64,
     image: "/placeholders/listing-mansion.jpg",
+    latitude: 32.7765,
+    longitude: -79.9311,
     host: {
       name: "James Whitfield",
       yearsHosting: 12,
@@ -57,6 +61,8 @@ export const rooms: Room[] = [
     rating: 4.95,
     reviews: 211,
     image: "/placeholders/listing-trending-loft.jpg",
+    latitude: 30.2672,
+    longitude: -97.7431,
     host: {
       name: "Mia Rodriguez",
       yearsHosting: 4,
@@ -82,6 +88,8 @@ export const rooms: Room[] = [
     rating: 4.87,
     reviews: 97,
     image: "/placeholders/listing-cabin.jpg",
+    latitude: 39.1911,
+    longitude: -106.8175,
     host: {
       name: "Ethan Brooks",
       yearsHosting: 8,
@@ -105,6 +113,8 @@ export const rooms: Room[] = [
     rating: 4.81,
     reviews: 156,
     image: "/placeholders/listing-city-studio.jpg",
+    latitude: 40.7812,
+    longitude: -73.9665,
     host: {
       name: "Priya Kapoor",
       yearsHosting: 5,
@@ -129,6 +139,8 @@ export const rooms: Room[] = [
     rating: 4.9,
     reviews: 83,
     image: "/placeholders/listing-lakefront.jpg",
+    latitude: 44.7631,
+    longitude: -85.6206,
     host: {
       name: "Laura Nguyen",
       yearsHosting: 7,
@@ -152,6 +164,8 @@ export const rooms: Room[] = [
     rating: 4.84,
     reviews: 142,
     image: "/placeholders/listing-beach-bungalow.jpg",
+    latitude: 20.2114,
+    longitude: -87.4654,
     host: {
       name: "Carlos Mendez",
       yearsHosting: 3,
@@ -175,6 +189,8 @@ export const rooms: Room[] = [
     rating: 4.79,
     reviews: 74,
     image: "/placeholders/listing-trending-river.jpg",
+    latitude: 41.8885,
+    longitude: -87.6354,
     host: {
       name: "Noah Patel",
       yearsHosting: 2,
@@ -193,7 +209,7 @@ export const rooms: Room[] = [
 ];
 
 export const listings: Listing[] = rooms.map(
-  ({ id, title, location, category, pricePerNight, rating, reviews, image }) => ({
+  ({
     id,
     title,
     location,
@@ -202,6 +218,19 @@ export const listings: Listing[] = rooms.map(
     rating,
     reviews,
     image,
+    latitude,
+    longitude,
+  }) => ({
+    id,
+    title,
+    location,
+    category,
+    pricePerNight,
+    rating,
+    reviews,
+    image,
+    latitude,
+    longitude,
   }),
 );
 

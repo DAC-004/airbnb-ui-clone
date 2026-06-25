@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -13,6 +13,11 @@ import AmenitiesGrid from "@/components/AmenitiesGrid";
 import BookingCard from "@/components/BookingCard";
 import { getRoomById } from "@/data/listings";
 import type { Room } from "@/types/listing";
+import {
+  calculateNights,
+  calculateTotalPrice,
+  getMinCheckOutDate,
+} from "@/utils/booking";
 
 const MIN_GUESTS = 1;
 const MAX_GUESTS = 8;
@@ -27,6 +32,28 @@ const RoomDetail = ({ id }: RoomDetailProps) => {
   const [isNotFound, setIsNotFound] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
   const [guestCount, setGuestCount] = useState(MIN_GUESTS);
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+
+  const nights = useMemo(
+    () => calculateNights(checkIn, checkOut),
+    [checkIn, checkOut],
+  );
+
+  const totalPrice = useMemo(
+    () => calculateTotalPrice(nights, room?.pricePerNight ?? 0),
+    [nights, room?.pricePerNight],
+  );
+
+  const minCheckOut = useMemo(() => getMinCheckOutDate(checkIn), [checkIn]);
+
+  const handleCheckInChange = (value: string) => {
+    setCheckIn(value);
+
+    if (checkOut && value && checkOut <= value) {
+      setCheckOut("");
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,7 +68,7 @@ const RoomDetail = ({ id }: RoomDetailProps) => {
       }
 
       setIsLoading(false);
-    }, 800);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [id]);
@@ -122,6 +149,13 @@ const RoomDetail = ({ id }: RoomDetailProps) => {
           pricePerNight={room.pricePerNight}
           guestCount={guestCount}
           maxGuests={MAX_GUESTS}
+          checkIn={checkIn}
+          checkOut={checkOut}
+          nights={nights}
+          totalPrice={totalPrice}
+          minCheckOut={minCheckOut}
+          onCheckInChange={handleCheckInChange}
+          onCheckOutChange={setCheckOut}
           onGuestDecrease={handleGuestDecrease}
           onGuestIncrease={handleGuestIncrease}
         />

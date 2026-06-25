@@ -1,9 +1,20 @@
 "use client";
 
+import BookingDateFields from "@/components/BookingDateFields";
+import BookingGuestControls from "@/components/BookingGuestControls";
+import BookingTotalSummary from "@/components/BookingTotalSummary";
+
 type BookingCardProps = {
   pricePerNight: number;
   guestCount: number;
   maxGuests?: number;
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  totalPrice: number | null;
+  minCheckOut?: string;
+  onCheckInChange: (value: string) => void;
+  onCheckOutChange: (value: string) => void;
   onGuestDecrease: () => void;
   onGuestIncrease: () => void;
   onReserve?: () => void;
@@ -13,6 +24,13 @@ const BookingCard = ({
   pricePerNight,
   guestCount,
   maxGuests = 8,
+  checkIn,
+  checkOut,
+  nights,
+  totalPrice,
+  minCheckOut,
+  onCheckInChange,
+  onCheckOutChange,
   onGuestDecrease,
   onGuestIncrease,
   onReserve,
@@ -26,43 +44,30 @@ const BookingCard = ({
         <span className="text-neutral-500"> / night</span>
       </p>
 
-      <div className="mb-4 rounded-lg border border-neutral-300">
-        <div className="flex items-center justify-between border-b border-neutral-300 px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-wide text-neutral-800">
-            Guests
-          </span>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onGuestDecrease}
-              disabled={guestCount <= 1}
-              aria-label="Decrease guest count"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-400 text-neutral-600 transition hover:border-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              &minus;
-            </button>
-            <span className="min-w-[1.5rem] text-center text-sm font-medium text-neutral-900">
-              {guestCount}
-            </span>
-            <button
-              type="button"
-              onClick={onGuestIncrease}
-              disabled={guestCount >= maxGuests}
-              aria-label="Increase guest count"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-400 text-neutral-600 transition hover:border-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              +
-            </button>
-          </div>
-        </div>
+      <div className="mb-4 overflow-hidden rounded-lg border border-neutral-300">
+        <BookingDateFields
+          checkIn={checkIn}
+          checkOut={checkOut}
+          minCheckOut={minCheckOut}
+          onCheckInChange={onCheckInChange}
+          onCheckOutChange={onCheckOutChange}
+        />
 
-        <div className="px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-neutral-800">
-            Check-in / Check-out
-          </p>
-          <p className="mt-1 text-sm text-neutral-500">Add dates for availability</p>
-        </div>
+        <BookingGuestControls
+          guestCount={guestCount}
+          maxGuests={maxGuests}
+          onGuestDecrease={onGuestDecrease}
+          onGuestIncrease={onGuestIncrease}
+        />
       </div>
+
+      {totalPrice !== null && nights > 0 && (
+        <BookingTotalSummary
+          pricePerNight={pricePerNight}
+          nights={nights}
+          totalPrice={totalPrice}
+        />
+      )}
 
       <button
         type="button"
