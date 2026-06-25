@@ -12,7 +12,7 @@ const AmenitiesGrid = ({ amenities }: AmenitiesGridProps) => {
       {amenities.length === 0 ? (
         <p className="text-sm text-neutral-500">No amenities listed.</p>
       ) : (
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {amenities.map((amenity) => (
             <li
               key={amenity}
