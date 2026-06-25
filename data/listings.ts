@@ -1,0 +1,212 @@
+import type { Listing, Room } from "@/types/listing";
+
+export const rooms: Room[] = [
+  {
+    id: "1",
+    title: "Oceanfront Villa with Private Deck",
+    location: "Malibu, California",
+    category: "Beach",
+    pricePerNight: 425,
+    rating: 4.92,
+    reviews: 128,
+    image: "/placeholders/listing-beach-villa.jpg",
+    host: {
+      name: "Sarah Chen",
+      yearsHosting: 6,
+      avatar: "/placeholders/host-sarah.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Pool", "Free parking", "Ocean view"],
+    photos: [
+      "/placeholders/room-1-photo-1.jpg",
+      "/placeholders/room-1-photo-2.jpg",
+      "/placeholders/room-1-photo-3.jpg",
+      "/placeholders/room-1-photo-4.jpg",
+    ],
+    description:
+      "Wake up to Pacific Ocean views from this bright beachfront villa. Steps from the sand with a private deck perfect for sunset dinners.",
+  },
+  {
+    id: "2",
+    title: "Historic Mansion with Garden Terrace",
+    location: "Charleston, South Carolina",
+    category: "Mansions",
+    pricePerNight: 890,
+    rating: 4.88,
+    reviews: 64,
+    image: "/placeholders/listing-mansion.jpg",
+    host: {
+      name: "James Whitfield",
+      yearsHosting: 12,
+      avatar: "/placeholders/host-james.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Garden", "Fireplace", "Washer"],
+    photos: [
+      "/placeholders/room-2-photo-1.jpg",
+      "/placeholders/room-2-photo-2.jpg",
+      "/placeholders/room-2-photo-3.jpg",
+    ],
+    description:
+      "Stay in a restored Southern mansion surrounded by manicured gardens. High ceilings, original details, and a serene terrace for morning coffee.",
+  },
+  {
+    id: "3",
+    title: "Design-Forward Loft in Arts District",
+    location: "Austin, Texas",
+    category: "Trending",
+    pricePerNight: 185,
+    rating: 4.95,
+    reviews: 211,
+    image: "/placeholders/listing-trending-loft.jpg",
+    host: {
+      name: "Mia Rodriguez",
+      yearsHosting: 4,
+      avatar: "/placeholders/host-mia.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Workspace", "Air conditioning", "Elevator"],
+    photos: [
+      "/placeholders/room-3-photo-1.jpg",
+      "/placeholders/room-3-photo-2.jpg",
+      "/placeholders/room-3-photo-3.jpg",
+      "/placeholders/room-3-photo-4.jpg",
+      "/placeholders/room-3-photo-5.jpg",
+    ],
+    description:
+      "A curated loft with floor-to-ceiling windows, local art, and walkable access to cafes and live music venues in the heart of the city.",
+  },
+  {
+    id: "4",
+    title: "Cozy Pine Cabin Near the Trailhead",
+    location: "Aspen, Colorado",
+    category: "Cabins",
+    pricePerNight: 240,
+    rating: 4.87,
+    reviews: 97,
+    image: "/placeholders/listing-cabin.jpg",
+    host: {
+      name: "Ethan Brooks",
+      yearsHosting: 8,
+      avatar: "/placeholders/host-ethan.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Fireplace", "Free parking", "Mountain view"],
+    photos: [
+      "/placeholders/room-4-photo-1.jpg",
+      "/placeholders/room-4-photo-2.jpg",
+      "/placeholders/room-4-photo-3.jpg",
+    ],
+    description:
+      "Rustic cabin comfort with modern touches. Ideal for hikers and skiers who want a quiet retreat minutes from scenic trails.",
+  },
+  {
+    id: "5",
+    title: "Sunny Studio Near Central Park",
+    location: "New York, New York",
+    category: "City",
+    pricePerNight: 310,
+    rating: 4.81,
+    reviews: 156,
+    image: "/placeholders/listing-city-studio.jpg",
+    host: {
+      name: "Priya Kapoor",
+      yearsHosting: 5,
+      avatar: "/placeholders/host-priya.jpg",
+    },
+    amenities: ["WiFi", "Kitchenette", "Air conditioning", "Elevator", "Gym access"],
+    photos: [
+      "/placeholders/room-5-photo-1.jpg",
+      "/placeholders/room-5-photo-2.jpg",
+      "/placeholders/room-5-photo-3.jpg",
+      "/placeholders/room-5-photo-4.jpg",
+    ],
+    description:
+      "Compact and thoughtfully designed studio with skyline glimpses. Perfect base for exploring museums, dining, and city landmarks.",
+  },
+  {
+    id: "6",
+    title: "Lakefront Cottage with Dock Access",
+    location: "Traverse City, Michigan",
+    category: "Lakefront",
+    pricePerNight: 275,
+    rating: 4.9,
+    reviews: 83,
+    image: "/placeholders/listing-lakefront.jpg",
+    host: {
+      name: "Laura Nguyen",
+      yearsHosting: 7,
+      avatar: "/placeholders/host-laura.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Free parking", "Kayaks", "BBQ grill"],
+    photos: [
+      "/placeholders/room-6-photo-1.jpg",
+      "/placeholders/room-6-photo-2.jpg",
+      "/placeholders/room-6-photo-3.jpg",
+    ],
+    description:
+      "Relax on a private dock overlooking calm lake waters. Kayaks included for morning paddles and evenings around the fire pit.",
+  },
+  {
+    id: "7",
+    title: "Surf Bungalow Steps from the Shore",
+    location: "Tulum, Mexico",
+    category: "Beach",
+    pricePerNight: 195,
+    rating: 4.84,
+    reviews: 142,
+    image: "/placeholders/listing-beach-bungalow.jpg",
+    host: {
+      name: "Carlos Mendez",
+      yearsHosting: 3,
+      avatar: "/placeholders/host-carlos.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "Outdoor shower", "Beach access", "Hammock"],
+    photos: [
+      "/placeholders/room-7-photo-1.jpg",
+      "/placeholders/room-7-photo-2.jpg",
+      "/placeholders/room-7-photo-3.jpg",
+    ],
+    description:
+      "Palapa-style bungalow with breezy interiors and direct beach access. A laid-back stay for surfers and sun seekers alike.",
+  },
+  {
+    id: "8",
+    title: "Minimalist Flat Above the River",
+    location: "Chicago, Illinois",
+    category: "Trending",
+    pricePerNight: 220,
+    rating: 4.79,
+    reviews: 74,
+    image: "/placeholders/listing-trending-river.jpg",
+    host: {
+      name: "Noah Patel",
+      yearsHosting: 2,
+      avatar: "/placeholders/host-noah.jpg",
+    },
+    amenities: ["WiFi", "Kitchen", "River view", "Workspace", "Washer"],
+    photos: [
+      "/placeholders/room-8-photo-1.jpg",
+      "/placeholders/room-8-photo-2.jpg",
+      "/placeholders/room-8-photo-3.jpg",
+      "/placeholders/room-8-photo-4.jpg",
+    ],
+    description:
+      "Clean lines and river views in a walkable neighborhood. Great for remote work with fast WiFi and a dedicated desk nook.",
+  },
+];
+
+export const listings: Listing[] = rooms.map(
+  ({ id, title, location, category, pricePerNight, rating, reviews, image }) => ({
+    id,
+    title,
+    location,
+    category,
+    pricePerNight,
+    rating,
+    reviews,
+    image,
+  }),
+);
+
+export const getRoomById = (id: string): Room | undefined =>
+  rooms.find((room) => room.id === id);
+
+export const getListingById = (id: string): Listing | undefined =>
+  listings.find((listing) => listing.id === id);
