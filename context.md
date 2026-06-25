@@ -249,7 +249,7 @@ Specs derived from mobile (375px) and desktop Airbnb-style screenshots before im
 - **Vision notes:** Mirrors Airbnb “What this place offers” — icon-left, label-right, grid on wider screens.
 - **Page usage:** Room Detail.
 
-### PhotoGallery
+### BackToCatalog
 - **Purpose:** Internal navigation back to catalog results.
 - **Props/data:** None.
 - **Layout:** Inline `<Link>` with left chevron and “Back to catalog” label.
