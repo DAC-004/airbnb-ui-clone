@@ -14,7 +14,7 @@ const CatalogHeader = ({
   onSortChange,
 }: CatalogHeaderProps) => {
   return (
-    <div className="flex flex-col gap-3 border-b border-neutral-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 border-b border-neutral-200 pb-4 md:flex-row md:items-center md:justify-between">
       <p className="text-sm text-neutral-600 md:text-base">
         <span className="font-semibold text-neutral-900">{resultCount}</span>{" "}
         {resultCount === 1 ? "stay" : "stays"} available
@@ -35,8 +35,8 @@ const CatalogHeader = ({
           }
           className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-800 outline-none focus:border-neutral-800"
         >
-          <option value="asc">Low to high</option>
-          <option value="desc">High to low</option>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
         </select>
       </div>
     </div>
