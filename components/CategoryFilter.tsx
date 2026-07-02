@@ -24,7 +24,7 @@ const CategoryFilter = ({
   return (
     <div className="w-full overflow-x-auto border-b border-neutral-200">
       <div
-        className="flex gap-8 px-4 pb-0 pt-2 md:mx-auto md:max-w-7xl md:px-6"
+        className="flex gap-8 px-4 pb-0 pt-2 md:mx-auto md:max-w-screen-2xl md:px-6"
         role="tablist"
         aria-label="Listing categories"
       >

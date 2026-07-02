@@ -15,6 +15,8 @@ const ListingImage = ({
   className = "object-cover",
   priority = false,
 }: ListingImageProps) => {
+  const isLocalAsset = src.startsWith("/images/");
+
   return (
     <Image
       src={src}
@@ -23,6 +25,7 @@ const ListingImage = ({
       sizes={sizes}
       className={className}
       priority={priority}
+      unoptimized={isLocalAsset}
     />
   );
 };

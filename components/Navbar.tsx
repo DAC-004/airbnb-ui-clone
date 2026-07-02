@@ -15,7 +15,7 @@ const Navbar = ({ searchValue, onSearchChange }: NavbarProps) => {
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="mx-auto max-w-screen-2xl px-4 md:px-6">
         <div className="flex h-16 items-center justify-between md:h-20">
           <Link href="/" className="flex shrink-0 items-center gap-1">
             <AirbnbLogo />

@@ -5,6 +5,8 @@ type ListingCardImageProps = {
   location: string;
   image: string;
   isGuestFavorite?: boolean;
+  priority?: boolean;
+  compact?: boolean;
 };
 
 const ListingCardImage = ({
@@ -12,14 +14,21 @@ const ListingCardImage = ({
   location,
   image,
   isGuestFavorite,
+  priority = false,
+  compact = false,
 }: ListingCardImageProps) => {
+  const imageSizes = compact
+    ? "(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 16vw"
+    : "(max-width: 768px) 100vw, 33vw";
+
   return (
     <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-neutral-100">
       <ListingImage
         src={image}
         alt={`${title} in ${location}`}
-        sizes="(max-width: 768px) 100vw, 33vw"
+        sizes={imageSizes}
         className="object-cover transition-transform duration-300 group-hover:scale-105"
+        priority={priority}
       />
 
       {isGuestFavorite && (

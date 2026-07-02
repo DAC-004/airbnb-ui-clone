@@ -4,9 +4,11 @@ import type { Listing } from "@/types/listing";
 
 type ListingCardProps = {
   listing: Listing;
+  priority?: boolean;
+  compact?: boolean;
 };
 
-const ListingCard = ({ listing }: ListingCardProps) => {
+const ListingCard = ({ listing, priority = false, compact = false }: ListingCardProps) => {
   return (
     <Link
       href={`/rooms/${listing.id}`}
@@ -17,6 +19,8 @@ const ListingCard = ({ listing }: ListingCardProps) => {
         location={listing.location}
         image={listing.image}
         isGuestFavorite={listing.isGuestFavorite}
+        priority={priority}
+        compact={compact}
       />
 
       <div className="flex flex-col gap-0.5">

@@ -1,6 +1,4 @@
-import PhotoGallery from "@/components/PhotoGallery";
-import RoomTitleBar from "@/components/RoomTitleBar";
-import RoomHeader from "@/components/RoomHeader";
+import RoomDetailHero from "@/components/RoomDetailHero";
 import RoomDetailMain from "@/components/RoomDetailMain";
 import RoomDetailBooking from "@/components/RoomDetailBooking";
 import type { Room } from "@/types/listing";
@@ -40,26 +38,16 @@ const RoomDetailContent = ({
 }: RoomDetailContentProps) => {
   return (
     <>
-      <RoomTitleBar title={room.title} />
-
-      <div className="mt-4">
-        <PhotoGallery
-          photos={room.photos}
-          title={room.title}
-          currentIndex={photoIndex}
-          onPrevious={onPreviousPhoto}
-          onNext={onNextPhoto}
-        />
-      </div>
-
-      <div className="mt-6">
-        <RoomHeader
-          title={room.title}
-          rating={room.rating}
-          reviews={room.reviews}
-          location={room.location}
-        />
-      </div>
+      <RoomDetailHero
+        title={room.title}
+        photos={room.photos}
+        photoIndex={photoIndex}
+        rating={room.rating}
+        reviews={room.reviews}
+        location={room.location}
+        onPreviousPhoto={onPreviousPhoto}
+        onNextPhoto={onNextPhoto}
+      />
 
       <div className="mt-6 md:mt-8 md:grid md:grid-cols-3 md:items-start md:gap-10">
         <RoomDetailMain room={room} />

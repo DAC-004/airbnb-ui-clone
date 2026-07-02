@@ -9,7 +9,7 @@ Browse listings on the home page, compare results on the catalog page, and view 
 | Route | Page |
 |---|---|
 | `/` | Home — search, category filter, listing grid |
-| `/catalog` | Catalog — sort results, map placeholder |
+| `/catalog` | Catalog — sort results, interactive map |
 | `/rooms/[id]` | Room detail — gallery, host, amenities, booking |
 
 ## Project structure
