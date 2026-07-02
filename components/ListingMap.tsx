@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useEffect, useRef } from "react";
+import L from "leaflet";
 import type { Listing } from "@/types/listing";
-import ListingMapMarker from "@/components/ListingMapMarker";
-import MapInvalidateSize from "@/components/MapInvalidateSize";
-import MapPlaceholder from "@/components/MapPlaceholder";
-import { getMapCenter } from "@/utils/map";
+import {
+  MAP_TILE_ATTRIBUTION,
+  MAP_TILE_URL,
+  buildListingPopupHtml,
+  createPriceMarkerIcon,
+  getMapCenter,
+} from "@/utils/map";
+import "leaflet/dist/leaflet.css";
 
 type ListingMapProps = {
   listings: Listing[];
@@ -16,44 +20,60 @@ const MAP_WRAPPER_CLASS =
   "h-72 w-full overflow-hidden rounded-xl md:h-[calc(100vh-10rem)] md:min-h-[520px]";
 
 const ListingMap = ({ listings }: ListingMapProps) => {
-  const [isMounted, setIsMounted] = useState(false);
-  const mapKey = useId();
-  const center = getMapCenter(listings);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 0);
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
 
-  if (!isMounted) {
-    return (
-      <div className={MAP_WRAPPER_CLASS}>
-        <MapPlaceholder />
-      </div>
+    const map = L.map(container, { scrollWheelZoom: false }).setView(
+      getMapCenter(listings),
+      4,
     );
-  }
+
+    L.tileLayer(MAP_TILE_URL, {
+      attribution: MAP_TILE_ATTRIBUTION,
+      maxZoom: 20,
+      subdomains: "abcd",
+    }).addTo(map);
+
+    listings.forEach((listing) => {
+      L.marker([listing.latitude, listing.longitude], {
+        icon: createPriceMarkerIcon(listing.pricePerNight),
+      })
+        .addTo(map)
+        .bindPopup(buildListingPopupHtml(listing));
+    });
+
+    mapRef.current = map;
+
+    const resizeMap = () => {
+      map.invalidateSize();
+    };
+
+    resizeMap();
+    const timer = window.setTimeout(resizeMap, 200);
+    window.addEventListener("resize", resizeMap);
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("resize", resizeMap);
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [listings]);
 
   return (
     <div className={MAP_WRAPPER_CLASS} aria-label="Interactive listing map">
-      <MapContainer
-        key={mapKey}
-        center={center}
-        zoom={4}
-        scrollWheelZoom={false}
-        className="h-full w-full"
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <MapInvalidateSize />
-        {listings.map((listing) => (
-          <ListingMapMarker key={listing.id} listing={listing} />
-        ))}
-      </MapContainer>
+      <div ref={containerRef} className="h-full w-full" />
     </div>
   );
 };
