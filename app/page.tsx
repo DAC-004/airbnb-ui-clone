@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
-import SearchBar from "@/components/SearchBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import ListingGrid from "@/components/ListingGrid";
 import LoadingState from "@/components/LoadingState";
 import { listings as mockListings } from "@/data/listings";
+import { filterListings } from "@/utils/filterListings";
 import type { Listing } from "@/types/listing";
 
 const CATEGORIES = [
@@ -34,30 +34,14 @@ const HomePage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const filteredListings = useMemo(() => {
-    const query = searchValue.trim().toLowerCase();
-
-    return listings.filter((listing) => {
-      const matchesCategory =
-        activeCategory === "All" || listing.category === activeCategory;
-
-      const matchesSearch =
-        query === "" ||
-        listing.title.toLowerCase().includes(query) ||
-        listing.location.toLowerCase().includes(query) ||
-        listing.category.toLowerCase().includes(query);
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [listings, searchValue, activeCategory]);
+  const filteredListings = useMemo(
+    () => filterListings(listings, searchValue, activeCategory),
+    [listings, searchValue, activeCategory],
+  );
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
-      <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 md:py-6">
-        <SearchBar value={searchValue} onChange={setSearchValue} />
-      </div>
+      <Navbar searchValue={searchValue} onSearchChange={setSearchValue} />
 
       <CategoryFilter
         categories={CATEGORIES}
@@ -65,11 +49,19 @@ const HomePage = () => {
         onCategoryChange={setActiveCategory}
       />
 
-      <main className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-8">
+      <main className="mx-auto max-w-screen-2xl px-4 py-6 md:px-6 md:py-8">
+        <h2 className="mb-6 text-xl font-semibold text-neutral-900 md:text-2xl">
+          Popular homes
+        </h2>
+
         {isLoading ? (
           <LoadingState message="Finding places for you..." />
         ) : (
-          <ListingGrid listings={filteredListings} />
+          <ListingGrid
+            listings={filteredListings}
+            prioritizeImages
+            layout="home"
+          />
         )}
       </main>
     </div>

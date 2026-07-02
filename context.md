@@ -16,7 +16,7 @@ The interface should be clean, responsive, and component-based. It should use Ta
 - `/app` — App Router pages and layouts
 - `/components` — reusable UI components
 - `/types` — TypeScript interfaces for listing and room data
-- `/data` — local mock listing and room data used by pages at runtime
+- `/data` — local mock listing and room data (24 listings) used by pages at runtime
 
 ## User Description
 
@@ -32,9 +32,9 @@ The Home page includes:
 - Search bar input
 - User menu icons
 - Horizontal category filter row
-- Responsive listing card grid
+- Responsive listing card grid (6 columns on wide desktop, 24 listings)
 
-The Home page allows the user to search listings in real time and filter listings by category.
+The Home page allows the user to search listings in real time and filter listings by category. Listing data starts empty; a single `useEffect` with a 1-second `setTimeout` populates local state and clears the loading indicator together.
 
 ### Catalog Page `/catalog`
 
@@ -43,9 +43,9 @@ The Catalog page includes:
 - Number of results
 - Sort control for ascending or descending price
 - Reused listing cards
-- Map placeholder area
+- Interactive map area (Leaflet + OpenStreetMap; `MapPlaceholder` while loading)
 
-On desktop, the map placeholder appears to the right of the listing results. On mobile, it appears below the cards.
+On desktop, the map appears to the right of the listing results (~42% width, sticky). On mobile, it appears below the cards.
 
 ### Room Detail Page `/rooms/[id]`
 
@@ -80,7 +80,6 @@ The Room Detail page includes:
 - AmenitiesGrid
 - BookingCard
 - ListingMap
-- ListingMapMarker
 - BookingDateFields
 - BackToCatalog
 
@@ -120,11 +119,12 @@ This project followed the vision prompting workflow before implementation:
 
 **Home `/`**
 - Sticky navbar → search bar → horizontally scrollable category filter → listing grid.
-- Mobile: single-column card stack. Desktop: 2–4 column grid.
+- Mobile: single-column card stack. Desktop: progressive columns (`sm`: 2, `md`: 3, `lg`: 4, `xl`: **6**) inside a `max-w-screen-2xl` container.
+- **24 listings** fill four full rows at the 6-column breakpoint.
 
 **Catalog `/catalog`**
-- Navbar → results header (count + sort) → listing grid beside/below map placeholder.
-- Mobile: cards first, map below. Desktop: cards left (~60%), map right (~40%).
+- Navbar → results header (count + sort; **24 stays**) → listing grid beside/below interactive map.
+- Mobile: cards first, map below. Desktop: cards left (~58%), map right (~42%).
 
 **Room Detail `/rooms/[id]`**
 - Navbar → back link → full-width photo gallery → header → host → amenities.
@@ -168,10 +168,10 @@ Specs derived from mobile (375px) and desktop Airbnb-style screenshots before im
 
 ### ListingGrid
 - **Purpose:** Responsive grid wrapper for listing cards.
-- **Props/data:** `listings: Listing[]`.
-- **Layout:** 1 column on mobile; 2 columns at `md` (768px); up to 4 at `xl`; empty-state message when no results.
-- **Vision notes:** Mobile screenshot shows vertical card stack; desktop screenshot shows multi-column rows.
-- **Page usage:** Home, Catalog.
+- **Props/data:** `listings: Listing[]`, optional `layout: "default" | "home"`, optional `prioritizeImages: boolean`.
+- **Layout:** **Home layout** (`layout="home"`): 1 column on mobile; 2 at `sm`; 3 at `md`; 4 at `lg`; **6 at `xl`** with tighter gaps for compact cards. **Default layout** (Catalog): 1 column on mobile; 2 at `md`; 3 at `lg`; 4 at `xl`. Empty-state message when no results.
+- **Vision notes:** Mobile screenshot shows vertical card stack; desktop home screenshot shows dense multi-column rows (6 across at wide viewports).
+- **Page usage:** Home (`layout="home"`), Catalog (default layout).
 
 ### LoadingState
 - **Purpose:** Visible loading feedback while simulated data loads.
@@ -190,22 +190,16 @@ Specs derived from mobile (375px) and desktop Airbnb-style screenshots before im
 ### MapPlaceholder
 - **Purpose:** Fallback map stand-in while the interactive map loads (or if map fails).
 - **Props/data:** None.
-- **Layout:** Gray rounded box with centered **Map** label.
-- **Vision notes:** Base-evaluation placeholder; superseded on Catalog when `ListingMap` loads.
-- **Page usage:** Catalog loading fallback via dynamic import.
+- **Layout:** Gray rounded box with centered **Loading map…** label; matches map wrapper height (`min-h-72` mobile, `min-h-[520px]` desktop).
+- **Vision notes:** Base-evaluation placeholder; shown during dynamic import and client mount before `ListingMap` renders.
+- **Page usage:** Catalog loading fallback via dynamic import and `ListingMap` mount guard.
 
 ### ListingMap
-- **Purpose:** Interactive OpenStreetMap view with price pins for catalog listings.
-- **Props/data:** `listings: Listing[]` (includes `latitude`, `longitude`).
-- **Layout:** Full-height rounded map; markers show price; popup links to room detail via `<Link>`.
-- **Vision notes:** Optional challenge — replaces static map placeholder on `/catalog`.
-- **Page usage:** Catalog (client-only, `dynamic` import with `ssr: false`).
-
-### ListingMapMarker
-- **Purpose:** Single map pin + popup for one listing.
-- **Props/data:** `listing: Listing`.
-- **Layout:** Custom div icon with nightly price; popup shows title, location, price, view link.
-- **Page usage:** Used inside `ListingMap`.
+- **Purpose:** Interactive map view with price pins for catalog listings.
+- **Props/data:** `listings: Listing[]` (includes `latitude`, `longitude`; all **24 listings** pinned).
+- **Layout:** Full-height rounded map with explicit mobile/desktop heights; price markers use inline-styled div icons; popups link to `/rooms/[id]`. Imperative Leaflet init in `useEffect` with ref-based container for reliable production rendering (including Vercel).
+- **Vision notes:** Optional challenge — replaces static map placeholder on `/catalog`. Uses CARTO Voyager tiles (OpenStreetMap data). Map helpers live in `/utils/map.ts`.
+- **Page usage:** Catalog (client-only, `dynamic` import with `ssr: false`). `MapPlaceholder` shown while the chunk loads.
 
 ### BookingDateFields
 - **Purpose:** Native check-in / check-out date inputs for the booking card.
@@ -312,15 +306,19 @@ The project will use `useState` for:
 ## Required Effect Usage
 
 The project will use `useEffect` for:
-- Simulated Home page listing data loading
+- Simulated Home page listing data loading (single 1-second `setTimeout`; empty initial list, then populate state and hide loading together)
 - Simulated Room Detail page data loading
 
 ## Optional Features (Implemented)
 
 The following stretch goals are implemented after the base requirements:
 
-- **Real interactive map** — `/catalog` uses `react-leaflet` + OpenStreetMap tiles. Each listing is pinned by `latitude` / `longitude` with a popup linking to `/rooms/[id]`. No Google Maps API key required.
+- **Real interactive map** — `/catalog` uses **Leaflet** with CARTO Voyager tiles (OpenStreetMap data). Each listing is pinned by `latitude` / `longitude` with a popup linking to `/rooms/[id]`. No Google Maps API key required.
 - **Functional date picker** — Room detail booking card uses native HTML5 date inputs for check-in and check-out (no date-picker UI library).
 - **Total price calculation** — When valid dates are selected, the booking card shows `$price × nights = total` using helpers in `/utils/booking.ts`.
 
-Dependencies added for the map only: `leaflet`, `react-leaflet`, `@types/leaflet`. No shadcn, MUI, Ant Design, Chakra, Bootstrap, or DaisyUI.
+Dependencies added for the map only: `leaflet`, `@types/leaflet`. No shadcn, MUI, Ant Design, Chakra, Bootstrap, or DaisyUI.
+
+## Image Asset Notes
+
+Listing images are local demo assets stored in `/public/images/listings/` (13 unique JPEG files reused across **24 listings**). Host avatars live in `/public/images/hosts/` (8 JPEGs). Pinned Pexels photo IDs are recorded in `/public/images/image-manifest.json` so the same files can be re-downloaded reproducibly. All image files are committed to git so the app works after clone without a Pexels API key. These images are not copied from Airbnb and do not include Airbnb logos, icons, or proprietary brand assets. The image integration does not change the required routes, navigation behavior, local state behavior, simulated loading behavior, or page structure.

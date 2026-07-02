@@ -6,14 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fetch-images": "node --env-file-if-exists=.env.local scripts/fetch-pexels-images.mjs",
+    "verify-images": "node scripts/verify-images.mjs",
+    "postinstall": "node scripts/verify-images.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
     "next": "^16.2.9",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-leaflet": "^5.0.0"
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

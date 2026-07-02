@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "description": "Pinned Pexels photo IDs for reproducible local image downloads. Commit the downloaded files in public/images/ so the app works without an API key.",
+  "images": [
+    {
+      "filename": "cabin-01.jpg",
+      "folder": "listings",
+      "pexelsId": 33694567,
+      "photographer": "Samed SARIAYDIN",
+      "photographerUrl": "https://www.pexels.com/@samed-sariaydin-453685521",
+      "photoUrl": "https://www.pexels.com/photo/rustic-cabin-in-forest-surrounded-by-nature-33694567/"
+    },
+    {
+      "filename": "beach-house-01.jpg",
+      "folder": "listings",
+      "pexelsId": 59924,
+      "photographer": "Josh Sorenson",
+      "photographerUrl": "https://www.pexels.com/@joshsorenson",
+      "photoUrl": "https://www.pexels.com/photo/palm-trees-and-buildings-under-blue-sky-during-daytime-59924/"
+    },
+    {
+      "filename": "beach-house-02.jpg",
+      "folder": "listings",
+      "pexelsId": 5505139,
+      "photographer": "Mike van Schoonderwalt",
+      "photographerUrl": "https://www.pexels.com/@mike-van-schoonderwalt-1884800",
+      "photoUrl": "https://www.pexels.com/photo/small-houses-on-beach-5505139/"
+    },
+    {
+      "filename": "city-loft-01.jpg",
+      "folder": "listings",
+      "pexelsId": 4703,
+      "photographer": "Life Of Pix",
+      "photographerUrl": "https://www.pexels.com/@life-of-pix",
+      "photoUrl": "https://www.pexels.com/photo/black-ceramic-vases-4703/"
+    },
+    {
+      "filename": "mountain-retreat-01.jpg",
+      "folder": "listings",
+      "pexelsId": 33552947,
+      "photographer": "Eren Arıcı",
+      "photographerUrl": "https://www.pexels.com/@eren-arici-718198662",
+      "photoUrl": "https://www.pexels.com/photo/scenic-mountain-village-amidst-dense-forest-33552947/"
+    },
+    {
+      "filename": "lake-house-01.jpg",
+      "folder": "listings",
+      "pexelsId": 1438832,
+      "photographer": "Frans van Heerden",
+      "photographerUrl": "https://www.pexels.com/@frans-van-heerden-201846",
+      "photoUrl": "https://www.pexels.com/photo/white-single-story-houses-beside-body-of-water-1438832/"
+    },
+    {
+      "filename": "desert-villa-01.jpg",
+      "folder": "listings",
+      "pexelsId": 8484851,
+      "photographer": "Denys Gromov",
+      "photographerUrl": "https://www.pexels.com/@jdgromov",
+      "photoUrl": "https://www.pexels.com/photo/facade-of-a-building-8484851/"
+    },
+    {
+      "filename": "apartment-01.jpg",
+      "folder": "listings",
+      "pexelsId": 298842,
+      "photographer": "Terje Sollie",
+      "photographerUrl": "https://www.pexels.com/@solliefoto",
+      "photoUrl": "https://www.pexels.com/photo/centerpiece-on-coffee-table-beside-sofa-with-three-pillows-298842/"
+    },
+    {
+      "filename": "villa-01.jpg",
+      "folder": "listings",
+      "pexelsId": 10647324,
+      "photographer": "Abid Ali",
+      "photographerUrl": "https://www.pexels.com/@abid-ali-150086727",
+      "photoUrl": "https://www.pexels.com/photo/white-and-brown-concrete-building-near-the-swimming-pool-10647324/"
+    },
+    {
+      "filename": "interior-01.jpg",
+      "folder": "listings",
+      "pexelsId": 30628768,
+      "photographer": "Jonathan Borba",
+      "photographerUrl": "https://www.pexels.com/@jonathanborba",
+      "photoUrl": "https://www.pexels.com/photo/cozy-rustic-living-room-with-wooden-interior-design-30628768/"
+    },
+    {
+      "filename": "bedroom-01.jpg",
+      "folder": "listings",
+      "pexelsId": 20200292,
+      "photographer": "Ahmet ÇÖTÜR",
+      "photographerUrl": "https://www.pexels.com/@ahmetcotur",
+      "photoUrl": "https://www.pexels.com/photo/lamp-over-beds-in-hotel-room-20200292/"
+    },
+    {
+      "filename": "kitchen-01.jpg",
+      "folder": "listings",
+      "pexelsId": 7166645,
+      "photographer": "Max Vakhtbovych",
+      "photographerUrl": "https://www.pexels.com/@artbovich",
+      "photoUrl": "https://www.pexels.com/photo/a-dining-table-and-chairs-near-the-kitchen-cabinets-7166645/"
+    },
+    {
+      "filename": "pool-01.jpg",
+      "folder": "listings",
+      "pexelsId": 20200291,
+      "photographer": "Ahmet ÇÖTÜR",
+      "photographerUrl": "https://www.pexels.com/@ahmetcotur",
+      "photoUrl": "https://www.pexels.com/photo/pool-in-house-garden-20200291/"
+    },
+    {
+      "filename": "host-sarah.jpg",
+      "folder": "hosts",
+      "pexelsId": 774909,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/woman-standing-beside-wall-774909/"
+    },
+    {
+      "filename": "host-james.jpg",
+      "folder": "hosts",
+      "pexelsId": 91227,
+      "photographer": "Emily Mucha",
+      "photographerUrl": "https://www.pexels.com/@emilymuchaphotography",
+      "photoUrl": "https://www.pexels.com/photo/man-wearing-white-and-black-button-up-collared-shirt-91227/"
+    },
+    {
+      "filename": "host-mia.jpg",
+      "folder": "hosts",
+      "pexelsId": 1181686,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/woman-wearing-black-scoop-neck-long-sleeved-shirt-1181686/"
+    },
+    {
+      "filename": "host-ethan.jpg",
+      "folder": "hosts",
+      "pexelsId": 1222271,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/man-in-white-dress-shirt-wearing-black-framed-eyeglasses-1222271/"
+    },
+    {
+      "filename": "host-priya.jpg",
+      "folder": "hosts",
+      "pexelsId": 1181519,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/woman-wearing-blue-denim-jacket-standing-on-staircase-1181519/"
+    },
+    {
+      "filename": "host-laura.jpg",
+      "folder": "hosts",
+      "pexelsId": 1239291,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/woman-in-white-dress-shirt-standing-beside-white-wall-1239291/"
+    },
+    {
+      "filename": "host-carlos.jpg",
+      "folder": "hosts",
+      "pexelsId": 2379004,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/man-in-black-suit-jacket-standing-near-table-2379004/"
+    },
+    {
+      "filename": "host-noah.jpg",
+      "folder": "hosts",
+      "pexelsId": 1681010,
+      "photographer": "Andrea Piacquadio",
+      "photographerUrl": "https://www.pexels.com/@olly",
+      "photoUrl": "https://www.pexels.com/photo/man-in-white-dress-shirt-wearing-black-framed-eyeglasses-1681010/"
+    }
+  ]
+}

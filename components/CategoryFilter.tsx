@@ -1,13 +1,13 @@
 "use client";
 
 const CATEGORY_ICONS: Record<string, string> = {
-  All: "✦",
-  Beach: "☼",
-  Mansions: "♛",
-  Trending: "↑",
-  Cabins: "⌂",
-  City: "▦",
-  Lakefront: "≋",
+  All: "🏠",
+  Beach: "🏖",
+  Mansions: "🏛",
+  Trending: "🔥",
+  Cabins: "🌲",
+  City: "🌆",
+  Lakefront: "⛵",
 };
 
 type CategoryFilterProps = {
@@ -24,7 +24,7 @@ const CategoryFilter = ({
   return (
     <div className="w-full overflow-x-auto border-b border-neutral-200">
       <div
-        className="flex gap-6 px-4 pb-3 pt-1 md:mx-auto md:max-w-7xl md:px-6"
+        className="flex gap-8 px-4 pb-0 pt-2 md:mx-auto md:max-w-screen-2xl md:px-6"
         role="tablist"
         aria-label="Listing categories"
       >
@@ -39,13 +39,13 @@ const CategoryFilter = ({
               role="tab"
               aria-selected={isActive}
               onClick={() => onCategoryChange(category)}
-              className={`flex shrink-0 flex-col items-center gap-1 border-b-2 pb-3 pt-1 text-sm font-medium transition-colors md:text-base ${
+              className={`flex shrink-0 flex-col items-center gap-1.5 border-b-2 pb-3 pt-1 text-xs font-medium transition-colors md:text-sm ${
                 isActive
-                  ? "border-neutral-800 text-neutral-900"
-                  : "border-transparent text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+                  ? "border-neutral-900 text-neutral-900"
+                  : "border-transparent text-neutral-500 hover:border-neutral-300 hover:text-neutral-800"
               }`}
             >
-              <span aria-hidden="true" className="text-base leading-none md:text-lg">
+              <span aria-hidden="true" className="text-2xl leading-none">
                 {icon}
               </span>
               <span>{category}</span>

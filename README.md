@@ -9,7 +9,7 @@ Browse listings on the home page, compare results on the catalog page, and view 
 | Route | Page |
 |---|---|
 | `/` | Home — search, category filter, listing grid |
-| `/catalog` | Catalog — sort results, map placeholder |
+| `/catalog` | Catalog — sort results, interactive map |
 | `/rooms/[id]` | Room detail — gallery, host, amenities, booking |
 
 ## Project structure
@@ -57,7 +57,7 @@ Styling uses Tailwind utility classes only. No UI component libraries.
 
 ### Optional features
 
-- Interactive map on `/catalog` (Leaflet + OpenStreetMap)
+- Interactive map on `/catalog` (Leaflet + CARTO/OSM tiles)
 - Native date picker on room detail booking card
 - Total price calculated from selected check-in / check-out dates
 

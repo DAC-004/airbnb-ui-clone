@@ -1,31 +1,39 @@
 import Link from "next/link";
-import UserMenu from "@/components/UserMenu";
+import AirbnbLogo from "@/components/AirbnbLogo";
+import NavbarNavTabs from "@/components/NavbarNavTabs";
+import NavbarActions from "@/components/NavbarActions";
+import SearchBar from "@/components/SearchBar";
 
-const Navbar = () => {
+type NavbarProps = {
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+};
+
+const Navbar = ({ searchValue, onSearchChange }: NavbarProps) => {
+  const showSearch =
+    searchValue !== undefined && onSearchChange !== undefined;
+
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-6">
-        <Link
-          href="/"
-          className="flex items-center gap-1 text-xl font-semibold text-[#FF385C] md:text-2xl"
-        >
-          <span aria-hidden="true">&#8962;</span>
-          <span>airbnb</span>
-        </Link>
-
-        <nav
-          className="flex items-center gap-3 md:gap-4"
-          aria-label="User navigation"
-        >
-          <Link
-            href="/catalog"
-            className="hidden rounded-full px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 md:inline-block"
-          >
-            Explore
+      <div className="mx-auto max-w-screen-2xl px-4 md:px-6">
+        <div className="flex h-16 items-center justify-between md:h-20">
+          <Link href="/" className="flex shrink-0 items-center gap-1">
+            <AirbnbLogo />
+            <span className="hidden text-xl font-semibold text-[#FF385C] md:inline">
+              airbnb
+            </span>
           </Link>
 
-          <UserMenu />
-        </nav>
+          <NavbarNavTabs />
+
+          <NavbarActions />
+        </div>
+
+        {showSearch && (
+          <div className="pb-4 md:pb-6">
+            <SearchBar value={searchValue} onChange={onSearchChange} />
+          </div>
+        )}
       </div>
     </header>
   );

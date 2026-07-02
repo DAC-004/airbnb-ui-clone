@@ -42,8 +42,8 @@ const CatalogPage = () => {
             <ListingGrid listings={sortedListings} />
           </section>
 
-          <aside className="w-full md:sticky md:top-24 md:w-2/5 md:shrink-0 lg:w-1/3">
-            <ListingMap listings={sortedListings} />
+          <aside className="w-full md:sticky md:top-24 md:w-[42%] md:shrink-0 lg:w-[38%]">
+            <ListingMap listings={mockListings} />
           </aside>
         </div>
       </main>
