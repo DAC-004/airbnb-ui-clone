@@ -7,8 +7,8 @@ import {
   MAP_TILE_ATTRIBUTION,
   MAP_TILE_URL,
   MAP_WRAPPER_CLASS,
-  addListingMarkersToMap,
   getMapCenter,
+  syncListingMarkers,
 } from "@/utils/map";
 import "leaflet/dist/leaflet.css";
 
@@ -19,13 +19,13 @@ type ListingMapProps = {
 const ListingMap = ({ listings }: ListingMapProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const markersLayerRef = useRef<L.LayerGroup | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
-
-    mapRef.current?.remove();
-    mapRef.current = null;
+    if (!container || mapRef.current) {
+      return;
+    }
 
     const map = L.map(container, { scrollWheelZoom: false }).setView(
       getMapCenter(listings),
@@ -38,8 +38,11 @@ const ListingMap = ({ listings }: ListingMapProps) => {
       subdomains: "abcd",
     }).addTo(map);
 
-    addListingMarkersToMap(map, listings);
+    const markersLayer = L.layerGroup().addTo(map);
+    syncListingMarkers(markersLayer, listings);
+
     mapRef.current = map;
+    markersLayerRef.current = markersLayer;
 
     const resizeMap = () => map.invalidateSize();
     resizeMap();
@@ -51,6 +54,7 @@ const ListingMap = ({ listings }: ListingMapProps) => {
       window.removeEventListener("resize", resizeMap);
       map.remove();
       mapRef.current = null;
+      markersLayerRef.current = null;
     };
   }, [listings]);
 
