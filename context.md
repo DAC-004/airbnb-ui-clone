@@ -80,7 +80,6 @@ The Room Detail page includes:
 - AmenitiesGrid
 - BookingCard
 - ListingMap
-- ListingMapMarker
 - BookingDateFields
 - BackToCatalog
 
@@ -196,17 +195,11 @@ Specs derived from mobile (375px) and desktop Airbnb-style screenshots before im
 - **Page usage:** Catalog loading fallback via dynamic import and `ListingMap` mount guard.
 
 ### ListingMap
-- **Purpose:** Interactive OpenStreetMap view with price pins for catalog listings.
+- **Purpose:** Interactive map view with price pins for catalog listings.
 - **Props/data:** `listings: Listing[]` (includes `latitude`, `longitude`; all **24 listings** pinned).
-- **Layout:** Full-height rounded map with explicit mobile/desktop heights; markers show price; popup links to room detail via `<Link>`. Client-only mount guard avoids React Strict Mode init errors.
-- **Vision notes:** Optional challenge — replaces static map placeholder on `/catalog`.
-- **Page usage:** Catalog (client-only, `dynamic` import with `ssr: false`). Helper: `MapInvalidateSize`.
-
-### ListingMapMarker
-- **Purpose:** Single map pin + popup for one listing.
-- **Props/data:** `listing: Listing`.
-- **Layout:** Custom div icon with nightly price; popup shows title, location, price, view link.
-- **Page usage:** Used inside `ListingMap`.
+- **Layout:** Full-height rounded map with explicit mobile/desktop heights; price markers use inline-styled div icons; popups link to `/rooms/[id]`. Imperative Leaflet init in `useEffect` with ref-based container for reliable production rendering (including Vercel).
+- **Vision notes:** Optional challenge — replaces static map placeholder on `/catalog`. Uses CARTO Voyager tiles (OpenStreetMap data). Map helpers live in `/utils/map.ts`.
+- **Page usage:** Catalog (client-only, `dynamic` import with `ssr: false`). `MapPlaceholder` shown while the chunk loads.
 
 ### BookingDateFields
 - **Purpose:** Native check-in / check-out date inputs for the booking card.
@@ -320,11 +313,11 @@ The project will use `useEffect` for:
 
 The following stretch goals are implemented after the base requirements:
 
-- **Real interactive map** — `/catalog` uses `react-leaflet` + OpenStreetMap tiles. Each listing is pinned by `latitude` / `longitude` with a popup linking to `/rooms/[id]`. No Google Maps API key required.
+- **Real interactive map** — `/catalog` uses **Leaflet** with CARTO Voyager tiles (OpenStreetMap data). Each listing is pinned by `latitude` / `longitude` with a popup linking to `/rooms/[id]`. No Google Maps API key required.
 - **Functional date picker** — Room detail booking card uses native HTML5 date inputs for check-in and check-out (no date-picker UI library).
 - **Total price calculation** — When valid dates are selected, the booking card shows `$price × nights = total` using helpers in `/utils/booking.ts`.
 
-Dependencies added for the map only: `leaflet`, `react-leaflet`, `@types/leaflet`. No shadcn, MUI, Ant Design, Chakra, Bootstrap, or DaisyUI.
+Dependencies added for the map only: `leaflet`, `@types/leaflet`. No shadcn, MUI, Ant Design, Chakra, Bootstrap, or DaisyUI.
 
 ## Image Asset Notes
 

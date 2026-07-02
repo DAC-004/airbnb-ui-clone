@@ -57,7 +57,7 @@ Styling uses Tailwind utility classes only. No UI component libraries.
 
 ### Optional features
 
-- Interactive map on `/catalog` (Leaflet + OpenStreetMap)
+- Interactive map on `/catalog` (Leaflet + CARTO/OSM tiles)
 - Native date picker on room detail booking card
 - Total price calculated from selected check-in / check-out dates
 

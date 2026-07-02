@@ -52,3 +52,16 @@ export const buildListingPopupHtml = (listing: Listing) => {
     </div>
   `;
 };
+
+export const addListingMarkersToMap = (map: L.Map, listings: Listing[]) => {
+  listings.forEach((listing) => {
+    L.marker([listing.latitude, listing.longitude], {
+      icon: createPriceMarkerIcon(listing.pricePerNight),
+    })
+      .addTo(map)
+      .bindPopup(buildListingPopupHtml(listing));
+  });
+};
+
+export const MAP_WRAPPER_CLASS =
+  "h-72 w-full overflow-hidden rounded-xl md:h-[calc(100vh-10rem)] md:min-h-[520px]";
