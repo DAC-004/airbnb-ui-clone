@@ -324,3 +324,7 @@ The following stretch goals are implemented after the base requirements:
 - **Total price calculation** — When valid dates are selected, the booking card shows `$price × nights = total` using helpers in `/utils/booking.ts`.
 
 Dependencies added for the map only: `leaflet`, `react-leaflet`, `@types/leaflet`. No shadcn, MUI, Ant Design, Chakra, Bootstrap, or DaisyUI.
+
+## Image Asset Notes
+
+Listing images are local demo assets stored in `/public/images/listings/`. They are used to replace placeholder photo areas in the Home page, Catalog page, and Room Detail gallery. These images are not copied from Airbnb and do not include Airbnb logos, icons, or proprietary brand assets. The image integration does not change the required routes, navigation behavior, local state behavior, simulated loading behavior, or page structure.

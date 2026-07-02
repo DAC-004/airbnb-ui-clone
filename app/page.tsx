@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
-import SearchBar from "@/components/SearchBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import ListingGrid from "@/components/ListingGrid";
 import LoadingState from "@/components/LoadingState";
@@ -53,11 +52,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
-      <div className="mx-auto max-w-7xl px-4 py-4 md:px-6 md:py-6">
-        <SearchBar value={searchValue} onChange={setSearchValue} />
-      </div>
+      <Navbar searchValue={searchValue} onSearchChange={setSearchValue} />
 
       <CategoryFilter
         categories={CATEGORIES}
@@ -69,7 +64,12 @@ const HomePage = () => {
         {isLoading ? (
           <LoadingState message="Finding places for you..." />
         ) : (
-          <ListingGrid listings={filteredListings} />
+          <>
+            <h2 className="mb-6 text-xl font-semibold text-neutral-900 md:text-2xl">
+              Popular homes
+            </h2>
+            <ListingGrid listings={filteredListings} />
+          </>
         )}
       </main>
     </div>

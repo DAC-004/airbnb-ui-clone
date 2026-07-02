@@ -3,6 +3,8 @@
 import BookingDateFields from "@/components/BookingDateFields";
 import BookingGuestControls from "@/components/BookingGuestControls";
 import BookingTotalSummary from "@/components/BookingTotalSummary";
+import BookingReserveButton from "@/components/BookingReserveButton";
+import BookingCardPrice from "@/components/BookingCardPrice";
 
 type BookingCardProps = {
   pricePerNight: number;
@@ -35,14 +37,15 @@ const BookingCard = ({
   onGuestIncrease,
   onReserve,
 }: BookingCardProps) => {
+  const hasDates = totalPrice !== null && nights > 0;
+
   return (
-    <aside className="rounded-xl border border-neutral-200 bg-white p-6 shadow-lg">
-      <p className="mb-4 text-neutral-900">
-        <span className="text-xl font-semibold md:text-2xl">
-          ${pricePerNight}
-        </span>
-        <span className="text-neutral-500"> / night</span>
-      </p>
+    <aside className="rounded-xl border border-neutral-200 bg-white p-6 shadow-xl">
+      <BookingCardPrice
+        pricePerNight={pricePerNight}
+        nights={nights}
+        totalPrice={totalPrice}
+      />
 
       <div className="mb-4 overflow-hidden rounded-lg border border-neutral-300">
         <BookingDateFields
@@ -61,7 +64,7 @@ const BookingCard = ({
         />
       </div>
 
-      {totalPrice !== null && nights > 0 && (
+      {hasDates && (
         <BookingTotalSummary
           pricePerNight={pricePerNight}
           nights={nights}
@@ -69,17 +72,7 @@ const BookingCard = ({
         />
       )}
 
-      <button
-        type="button"
-        onClick={onReserve}
-        className="w-full rounded-lg bg-[#FF385C] py-3 text-sm font-semibold text-white transition hover:bg-[#E31C5F] md:text-base"
-      >
-        Reserve
-      </button>
-
-      <p className="mt-3 text-center text-xs text-neutral-500">
-        You won&apos;t be charged yet
-      </p>
+      <BookingReserveButton onReserve={onReserve} />
     </aside>
   );
 };

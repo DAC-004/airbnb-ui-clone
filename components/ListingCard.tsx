@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ListingCardImage from "@/components/ListingCardImage";
+import { formatStayPrice } from "@/utils/imagePlaceholders";
 import type { Listing } from "@/types/listing";
 
 type ListingCardProps = {
@@ -11,20 +13,16 @@ const ListingCard = ({ listing }: ListingCardProps) => {
       href={`/rooms/${listing.id}`}
       className="group flex flex-col gap-2"
     >
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-neutral-200">
-        <div
-          className="flex h-full w-full items-end justify-start bg-gradient-to-br from-neutral-300 to-neutral-200 p-3 transition-transform duration-300 group-hover:scale-105"
-          aria-label={listing.title}
-        >
-          <span className="rounded-md bg-white/80 px-2 py-1 text-xs font-medium text-neutral-600">
-            {listing.category}
-          </span>
-        </div>
-      </div>
+      <ListingCardImage
+        title={listing.title}
+        location={listing.location}
+        image={listing.image}
+        isGuestFavorite={listing.isGuestFavorite}
+      />
 
       <div className="flex flex-col gap-0.5">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="line-clamp-1 text-sm font-semibold text-neutral-900 md:text-base">
+          <h3 className="line-clamp-1 text-[15px] font-medium text-neutral-900">
             {listing.title}
           </h3>
           <span className="flex shrink-0 items-center gap-0.5 text-sm text-neutral-900">
@@ -38,8 +36,9 @@ const ListingCard = ({ listing }: ListingCardProps) => {
         </p>
 
         <p className="text-sm text-neutral-900">
-          <span className="font-semibold">${listing.pricePerNight}</span>
-          <span className="text-neutral-500"> night</span>
+          <span className="font-semibold">
+            {formatStayPrice(listing.pricePerNight)}
+          </span>
         </p>
       </div>
     </Link>
