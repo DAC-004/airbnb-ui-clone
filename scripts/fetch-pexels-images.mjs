@@ -1,154 +1,100 @@
 #!/usr/bin/env node
 
 /**
- * Fetches vacation-rental-style photos from the official Pexels API
- * and saves them to public/images/listings/.
+ * Downloads pinned images from the official Pexels API using public/images/image-manifest.json.
+ * Skips files that already exist unless --force is passed.
  *
  * Usage:
- *   PEXELS_API_KEY=your_key node scripts/fetch-pexels-images.mjs
- *   npm run fetch-images   (reads PEXELS_API_KEY from .env.local if present)
+ *   npm run fetch-images
+ *   npm run fetch-images -- --force
  */
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const OUT_DIR = path.join(ROOT, "public", "images", "listings");
-const CREDITS_PATH = path.join(OUT_DIR, "IMAGE_CREDITS.md");
-
+const IMAGES_DIR = path.join(ROOT, "public", "images");
+const MANIFEST_PATH = path.join(IMAGES_DIR, "image-manifest.json");
 const API_KEY = process.env.PEXELS_API_KEY;
-
-/** @type {{ filename: string; query: string; orientation?: string }[]} */
-const IMAGE_TARGETS = [
-  { filename: "cabin-01.jpg", query: "log cabin vacation rental exterior", orientation: "landscape" },
-  { filename: "beach-house-01.jpg", query: "beach house vacation rental", orientation: "landscape" },
-  { filename: "beach-house-02.jpg", query: "seaside bungalow rental", orientation: "landscape" },
-  { filename: "city-loft-01.jpg", query: "modern city loft apartment interior", orientation: "landscape" },
-  { filename: "mountain-retreat-01.jpg", query: "mountain cabin retreat landscape", orientation: "landscape" },
-  { filename: "lake-house-01.jpg", query: "lake house vacation home", orientation: "landscape" },
-  { filename: "desert-villa-01.jpg", query: "desert villa pool architecture", orientation: "landscape" },
-  { filename: "apartment-01.jpg", query: "modern apartment living room rental", orientation: "landscape" },
-  { filename: "villa-01.jpg", query: "luxury villa exterior pool", orientation: "landscape" },
-  { filename: "interior-01.jpg", query: "vacation rental living room cozy", orientation: "landscape" },
-  { filename: "bedroom-01.jpg", query: "bedroom vacation rental interior", orientation: "landscape" },
-  { filename: "kitchen-01.jpg", query: "modern kitchen interior home", orientation: "landscape" },
-  { filename: "pool-01.jpg", query: "swimming pool villa backyard", orientation: "landscape" },
-];
-
-const usedPhotoIds = new Set();
-
-/** @type {{ filename: string; photographer: string; photographerUrl: string; photoUrl: string; pexelsUrl: string }[]} */
-const credits = [];
+const force = process.argv.includes("--force");
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/**
- * @param {string} query
- * @param {string | undefined} orientation
- * @param {number} page
- */
-async function searchPhotos(query, orientation, page = 1) {
-  const params = new URLSearchParams({
-    query,
-    per_page: "15",
-    page: String(page),
-  });
-
-  if (orientation) {
-    params.set("orientation", orientation);
+async function fileExists(filePath) {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
   }
+}
 
-  const response = await fetch(
-    `https://api.pexels.com/v1/search?${params.toString()}`,
-    {
-      headers: { Authorization: API_KEY },
-    },
-  );
+async function getPhotoById(photoId) {
+  const response = await fetch(`https://api.pexels.com/v1/photos/${photoId}`, {
+    headers: { Authorization: API_KEY },
+  });
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(`Pexels search failed (${response.status}): ${body}`);
+    throw new Error(`Pexels photo ${photoId} failed (${response.status}): ${body}`);
   }
 
   return response.json();
 }
 
-/**
- * @param {{ filename: string; query: string; orientation?: string }} target
- */
-async function fetchImageForTarget(target) {
-  for (let page = 1; page <= 3; page += 1) {
-    const data = await searchPhotos(target.query, target.orientation, page);
-    const photos = data.photos ?? [];
+async function downloadPhoto(photo, outPath) {
+  const downloadUrl =
+    photo.src?.large2x ?? photo.src?.large ?? photo.src?.original;
 
-    for (const photo of photos) {
-      if (usedPhotoIds.has(photo.id)) {
-        continue;
-      }
-
-      usedPhotoIds.add(photo.id);
-
-      const downloadUrl =
-        photo.src?.large2x ?? photo.src?.large ?? photo.src?.original;
-
-      if (!downloadUrl) {
-        continue;
-      }
-
-      const imageResponse = await fetch(downloadUrl);
-
-      if (!imageResponse.ok) {
-        throw new Error(
-          `Failed to download ${target.filename} (${imageResponse.status})`,
-        );
-      }
-
-      const buffer = Buffer.from(await imageResponse.arrayBuffer());
-      const outPath = path.join(OUT_DIR, target.filename);
-      await writeFile(outPath, buffer);
-
-      credits.push({
-        filename: target.filename,
-        photographer: photo.photographer ?? "Unknown",
-        photographerUrl: photo.photographer_url ?? "https://www.pexels.com",
-        photoUrl: photo.url ?? downloadUrl,
-        pexelsUrl: `https://www.pexels.com/photo/${photo.id}/`,
-      });
-
-      console.log(`Saved ${target.filename} (Pexels ID ${photo.id})`);
-      return;
-    }
-
-    await sleep(400);
+  if (!downloadUrl) {
+    throw new Error(`No download URL for Pexels photo ${photo.id}`);
   }
 
-  throw new Error(`No unique photo found for query: ${target.query}`);
+  const imageResponse = await fetch(downloadUrl);
+
+  if (!imageResponse.ok) {
+    throw new Error(`Download failed for ${outPath} (${imageResponse.status})`);
+  }
+
+  const buffer = Buffer.from(await imageResponse.arrayBuffer());
+  await writeFile(outPath, buffer);
 }
 
-function buildCreditsMarkdown() {
+function buildCreditsMarkdown(manifest) {
+  const listings = manifest.images.filter((entry) => entry.folder === "listings");
+  const hosts = manifest.images.filter((entry) => entry.folder === "hosts");
+
   const lines = [
     "# Image Credits",
     "",
     "These images are used for educational/demo purposes in a Next.js Airbnb-style UI clone.",
     "",
-    "All photos were fetched via the official [Pexels API](https://www.pexels.com/api/) and saved locally. No Airbnb-owned assets, external hotlinks, or scraped third-party listing photos are used in the app.",
+    "All photos were fetched via the official [Pexels API](https://www.pexels.com/api/) using pinned photo IDs in `public/images/image-manifest.json`. Files are stored locally in git so the app works without an API key after clone.",
     "",
     "## Usage Rules",
     "",
     "- No Airbnb-owned listing photos are used.",
     "- No Airbnb logos or proprietary brand assets are used.",
-    "- Images are local files stored in `/public/images/listings/`.",
+    "- Images are local files stored in `/public/images/`.",
     "- Image paths are referenced from local mock listing data only.",
     "",
-    "## Sources",
+    "## Listing Photos",
     "",
   ];
 
-  for (const entry of credits) {
+  for (const entry of listings) {
     lines.push(
-      `- \`${entry.filename}\` — Source: [Pexels](https://www.pexels.com) — Photographer: [${entry.photographer}](${entry.photographerUrl}) — Photo: [View on Pexels](${entry.photoUrl})`,
+      `- \`${entry.filename}\` — Source: [Pexels](https://www.pexels.com) — Photographer: [${entry.photographer}](${entry.photographerUrl}) — Photo: [View on Pexels](${entry.photoUrl}) — ID: \`${entry.pexelsId}\``,
+    );
+  }
+
+  lines.push("", "## Host Avatars", "");
+
+  for (const entry of hosts) {
+    lines.push(
+      `- \`${entry.filename}\` — Source: [Pexels](https://www.pexels.com) — Photographer: [${entry.photographer}](${entry.photographerUrl}) — Photo: [View on Pexels](${entry.photoUrl}) — ID: \`${entry.pexelsId}\``,
     );
   }
 
@@ -167,27 +113,47 @@ async function main() {
   if (!API_KEY) {
     console.error(
       "Error: PEXELS_API_KEY is not set.\n\n" +
-        "Get a free API key at https://www.pexels.com/api/ then run:\n" +
-        "  PEXELS_API_KEY=your_key npm run fetch-images\n\n" +
-        "Or create .env.local with:\n" +
-        "  PEXELS_API_KEY=your_key",
+        "Images committed in public/images/ work without an API key.\n" +
+        "To re-download from Pexels, add PEXELS_API_KEY to .env.local and run:\n" +
+        "  npm run fetch-images",
     );
     process.exit(1);
   }
 
-  await mkdir(OUT_DIR, { recursive: true });
+  const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
+  let downloaded = 0;
+  let skipped = 0;
 
-  console.log(`Fetching ${IMAGE_TARGETS.length} images from Pexels API...\n`);
+  console.log(
+    `Using pinned manifest (${manifest.images.length} images)${force ? " [force overwrite]" : ""}...\n`,
+  );
 
-  for (const target of IMAGE_TARGETS) {
-    await fetchImageForTarget(target);
-    await sleep(350);
+  for (const entry of manifest.images) {
+    const outDir = path.join(IMAGES_DIR, entry.folder);
+    const outPath = path.join(outDir, entry.filename);
+    await mkdir(outDir, { recursive: true });
+
+    if (!force && (await fileExists(outPath))) {
+      console.log(`Skip ${entry.folder}/${entry.filename} (already exists)`);
+      skipped += 1;
+      continue;
+    }
+
+    const photo = await getPhotoById(entry.pexelsId);
+    await downloadPhoto(photo, outPath);
+    console.log(`Saved ${entry.folder}/${entry.filename} (Pexels ID ${entry.pexelsId})`);
+    downloaded += 1;
+    await sleep(300);
   }
 
-  await writeFile(CREDITS_PATH, buildCreditsMarkdown());
+  await writeFile(
+    path.join(IMAGES_DIR, "listings", "IMAGE_CREDITS.md"),
+    buildCreditsMarkdown(manifest),
+  );
 
-  console.log(`\nDone. ${credits.length} images saved to public/images/listings/`);
-  console.log(`Credits written to public/images/listings/IMAGE_CREDITS.md`);
+  console.log(
+    `\nDone. Downloaded ${downloaded}, skipped ${skipped}. Credits updated.`,
+  );
 }
 
 main().catch((error) => {

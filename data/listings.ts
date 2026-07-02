@@ -21,7 +21,7 @@ export const rooms: Room[] = [
     host: {
       name: "Sarah Chen",
       yearsHosting: 6,
-      avatar: "/placeholders/host-sarah.jpg",
+      avatar: "/images/hosts/host-sarah.jpg",
       isSuperhost: true,
     },
     amenities: ["WiFi", "Kitchen", "Pool", "Free parking", "Ocean view"],
@@ -55,7 +55,7 @@ export const rooms: Room[] = [
     host: {
       name: "James Whitfield",
       yearsHosting: 12,
-      avatar: "/placeholders/host-james.jpg",
+      avatar: "/images/hosts/host-james.jpg",
       isSuperhost: true,
     },
     amenities: ["WiFi", "Kitchen", "Garden", "Fireplace", "Washer"],
@@ -89,7 +89,7 @@ export const rooms: Room[] = [
     host: {
       name: "Mia Rodriguez",
       yearsHosting: 4,
-      avatar: "/placeholders/host-mia.jpg",
+      avatar: "/images/hosts/host-mia.jpg",
       isSuperhost: true,
     },
     amenities: ["WiFi", "Kitchen", "Workspace", "Air conditioning", "Elevator"],
@@ -122,7 +122,7 @@ export const rooms: Room[] = [
     host: {
       name: "Ethan Brooks",
       yearsHosting: 8,
-      avatar: "/placeholders/host-ethan.jpg",
+      avatar: "/images/hosts/host-ethan.jpg",
       isSuperhost: true,
     },
     amenities: ["WiFi", "Kitchen", "Fireplace", "Free parking", "Mountain view"],
@@ -155,7 +155,7 @@ export const rooms: Room[] = [
     host: {
       name: "Priya Kapoor",
       yearsHosting: 5,
-      avatar: "/placeholders/host-priya.jpg",
+      avatar: "/images/hosts/host-priya.jpg",
     },
     amenities: ["WiFi", "Kitchenette", "Air conditioning", "Elevator", "Gym access"],
     photos: [
@@ -188,7 +188,7 @@ export const rooms: Room[] = [
     host: {
       name: "Laura Nguyen",
       yearsHosting: 7,
-      avatar: "/placeholders/host-laura.jpg",
+      avatar: "/images/hosts/host-laura.jpg",
       isSuperhost: true,
     },
     amenities: ["WiFi", "Kitchen", "Free parking", "Kayaks", "BBQ grill"],
@@ -221,7 +221,7 @@ export const rooms: Room[] = [
     host: {
       name: "Carlos Mendez",
       yearsHosting: 3,
-      avatar: "/placeholders/host-carlos.jpg",
+      avatar: "/images/hosts/host-carlos.jpg",
     },
     amenities: ["WiFi", "Kitchen", "Outdoor shower", "Beach access", "Hammock"],
     photos: [
@@ -253,7 +253,7 @@ export const rooms: Room[] = [
     host: {
       name: "Noah Patel",
       yearsHosting: 2,
-      avatar: "/placeholders/host-noah.jpg",
+      avatar: "/images/hosts/host-noah.jpg",
     },
     amenities: ["WiFi", "Kitchen", "River view", "Workspace", "Washer"],
     photos: [

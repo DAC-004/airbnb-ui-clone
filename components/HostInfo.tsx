@@ -1,3 +1,4 @@
+import ListingImage from "@/components/ListingImage";
 import type { Host } from "@/types/listing";
 
 type HostInfoProps = {
@@ -9,11 +10,13 @@ const HostInfo = ({ host }: HostInfoProps) => {
     <section className="border-b border-neutral-200 py-6">
       <div className="flex items-center gap-4">
         <div className="relative">
-          <div
-            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-neutral-300 text-lg font-semibold text-neutral-600 md:h-16 md:w-16 md:text-xl"
-            aria-label={`${host.name} avatar`}
-          >
-            {host.name.charAt(0)}
+          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-neutral-300 md:h-16 md:w-16">
+            <ListingImage
+              src={host.avatar}
+              alt={`${host.name} profile photo`}
+              sizes="64px"
+              className="object-cover"
+            />
           </div>
           {host.isSuperhost && (
             <span className="absolute -bottom-1 -right-1 rounded-full bg-[#FF385C] px-1.5 py-0.5 text-[10px] font-bold text-white">

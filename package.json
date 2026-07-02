@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "fetch-images": "node --env-file-if-exists=.env.local scripts/fetch-pexels-images.mjs"
+    "fetch-images": "node --env-file-if-exists=.env.local scripts/fetch-pexels-images.mjs",
+    "verify-images": "node scripts/verify-images.mjs",
+    "postinstall": "node scripts/verify-images.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

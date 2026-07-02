@@ -327,4 +327,4 @@ Dependencies added for the map only: `leaflet`, `react-leaflet`, `@types/leaflet
 
 ## Image Asset Notes
 
-Listing images are local demo assets stored in `/public/images/listings/`. They are used to replace placeholder photo areas in the Home page, Catalog page, and Room Detail gallery. These images are not copied from Airbnb and do not include Airbnb logos, icons, or proprietary brand assets. The image integration does not change the required routes, navigation behavior, local state behavior, simulated loading behavior, or page structure.
+Listing images are local demo assets stored in `/public/images/listings/`. Host avatars live in `/public/images/hosts/`. Pinned Pexels photo IDs are recorded in `/public/images/image-manifest.json` so the same files can be re-downloaded reproducibly. All image files are committed to git so the app works after clone without a Pexels API key. These images are not copied from Airbnb and do not include Airbnb logos, icons, or proprietary brand assets. The image integration does not change the required routes, navigation behavior, local state behavior, simulated loading behavior, or page structure.
