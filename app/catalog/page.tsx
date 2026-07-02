@@ -43,7 +43,7 @@ const CatalogPage = () => {
           </section>
 
           <aside className="w-full md:sticky md:top-24 md:w-[42%] md:shrink-0 lg:w-[38%]">
-            <ListingMap listings={sortedListings} />
+            <ListingMap listings={mockListings} />
           </aside>
         </div>
       </main>
