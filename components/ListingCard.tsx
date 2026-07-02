@@ -1,6 +1,5 @@
 import Link from "next/link";
 import ListingCardImage from "@/components/ListingCardImage";
-import { formatStayPrice } from "@/utils/imagePlaceholders";
 import type { Listing } from "@/types/listing";
 
 type ListingCardProps = {
@@ -36,9 +35,8 @@ const ListingCard = ({ listing }: ListingCardProps) => {
         </p>
 
         <p className="text-sm text-neutral-900">
-          <span className="font-semibold">
-            {formatStayPrice(listing.pricePerNight)}
-          </span>
+          <span className="font-semibold">${listing.pricePerNight}</span>
+          <span className="text-neutral-500"> night</span>
         </p>
       </div>
     </Link>

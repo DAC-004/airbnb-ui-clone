@@ -1,5 +1,6 @@
 import PhotoGallery from "@/components/PhotoGallery";
 import RoomTitleBar from "@/components/RoomTitleBar";
+import RoomHeader from "@/components/RoomHeader";
 import RoomDetailMain from "@/components/RoomDetailMain";
 import RoomDetailBooking from "@/components/RoomDetailBooking";
 import type { Room } from "@/types/listing";
@@ -48,6 +49,15 @@ const RoomDetailContent = ({
           currentIndex={photoIndex}
           onPrevious={onPreviousPhoto}
           onNext={onNextPhoto}
+        />
+      </div>
+
+      <div className="mt-6">
+        <RoomHeader
+          title={room.title}
+          rating={room.rating}
+          reviews={room.reviews}
+          location={room.location}
         />
       </div>
 

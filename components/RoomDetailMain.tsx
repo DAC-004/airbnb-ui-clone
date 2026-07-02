@@ -3,7 +3,6 @@ import GuestFavoriteBadge from "@/components/GuestFavoriteBadge";
 import HostInfo from "@/components/HostInfo";
 import RoomDescription from "@/components/RoomDescription";
 import AmenitiesGrid from "@/components/AmenitiesGrid";
-import RoomHeader from "@/components/RoomHeader";
 import type { Room } from "@/types/listing";
 
 type RoomDetailMainProps = {
@@ -28,14 +27,6 @@ const RoomDetailMain = ({ room }: RoomDetailMainProps) => {
       <HostInfo host={room.host} />
       <RoomDescription description={room.description} />
       <AmenitiesGrid amenities={room.amenities} />
-
-      <div className="border-b border-neutral-200 py-6 md:hidden">
-        <RoomHeader
-          rating={room.rating}
-          reviews={room.reviews}
-          location={room.location}
-        />
-      </div>
     </div>
   );
 };
